@@ -144,6 +144,9 @@
   <ItemGroup>
     <ClInclude Include="BasicApp.h" />
     <ClInclude Include="GLApp.h" />
+    <ClInclude Include="GLResource.h" />
+    <ClInclude Include="GLTexture.h" />
+    <ClInclude Include="GLVertexBuffer.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShapeGenerator.h" />
@@ -153,6 +156,8 @@
   <ItemGroup>
     <ClCompile Include="BasicApp.cpp" />
     <ClCompile Include="GLApp.cpp" />
+    <ClCompile Include="GLTexture.cpp" />
+    <ClCompile Include="GLVertexBuffer.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShapeGenerator.cpp" />
     <ClCompile Include="stb_image.cpp" />

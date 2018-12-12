@@ -14,7 +14,8 @@ BasicApp::BasicApp(std::string title) : SDLGLApp::SDLGLApp(title)
 
 BasicApp::~BasicApp()
 {
-	
+	delete texture;
+	SDL_Quit();
 }
 
 bool BasicApp::Init()
@@ -53,22 +54,14 @@ bool BasicApp::Init()
 	projection = glm::perspective(glm::quarter_pi<float>(), AspectRatio(), 0.01f, 1000.0f);
 	projection = glm::transpose(projection);
 
-	// Load Texture and Bind it to texture 0 in the shader
+	// Load Texture
 	int x, y, n;
 	unsigned char * data = stbi_load("res/smiley_2D.png", &x, &y, &n, 4);
-	glGenTextures(1, &texture);
-	glBindTexture(GL_TEXTURE_2D, texture);
 
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, x, y, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
+	texture = new GLTexture(x, y, n, 2);
+	texture->InitGLResource(data);
 	stbi_image_free(data);
-	glBindTexture(GL_TEXTURE_2D, 0);
+	texture->Unbind();
 
 	// Set Uniforms
 	shader.Use();
@@ -108,7 +101,7 @@ int BasicApp::Run()
 		glBindBuffer(GL_ARRAY_BUFFER, meshVBuffer);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, meshIBuffer);
 		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, texture);
+		texture->Bind();
 		glBindSampler(0, 0);
 
 		glm::mat4 view = glm::lookAt(glm::vec3(0.0f, 0.0f, 10.0f), glm::vec3(0.0), glm::vec3(0.0f, 1.0f, 0.0f));
@@ -125,6 +118,5 @@ int BasicApp::Run()
 		//glDrawRangeElementsBaseVertex(GL_TRIANGLES, quadIStart, quadIStart + numQuadIndices, numQuadIndices, GL_UNSIGNED_SHORT, 0, quadVStart);
 		SDL_GL_SwapWindow(mainWindow);
 	}
-	SDL_Quit();
 	return 0;
 }

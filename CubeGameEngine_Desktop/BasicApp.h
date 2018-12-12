@@ -3,6 +3,7 @@
 #include "Vertex.h"
 #include "Shader.h"
 #include <glm/matrix.hpp>
+#include "GLTexture.h"
 
 class BasicApp :
 	public SDLGLApp
@@ -19,7 +20,9 @@ class BasicApp :
 	int numCubeIndices, numQuadIndices;
 	int cubeIStart, quadIStart;
 
-	unsigned int texture;
+	GLTexture * texture;
+
+	// unsigned int texture;
 
 	glm::mat4 projection;
 
