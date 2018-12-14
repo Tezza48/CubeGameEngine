@@ -6,7 +6,7 @@
 #include "GLTexture.h"
 
 class BasicApp :
-	public SDLGLApp
+	public GLApp
 {
 	Shader shader;
 	//unsigned int shaderProgram;
@@ -19,9 +19,6 @@ class BasicApp :
 	int cubeVStart, quadVStart;
 	int numCubeIndices, numQuadIndices;
 	int cubeIStart, quadIStart;
-
-	GLTexture * texture;
-
 	// unsigned int texture;
 
 	glm::mat4 projection;
@@ -35,20 +32,3 @@ public:
 private:
 	//void LoadContent() override;
 };
-
-#if _DEBUG
-void DebugCleanup()
-{
-	if(SDLGLApp::DEBUG_PAUSE_ON_EXIT) system("PAUSE");
-}
-#endif // _DEBUG
-
-int main(int argc, char**argv)
-{
-#if _DEBUG
-	atexit(DebugCleanup);
-#endif
-	BasicApp app("Basic App");
-	if (!app.Init()) return 0;
-	return app.Run();
-}

@@ -1,25 +1,41 @@
 #version 460 core
 
+uniform mat4 world;
 uniform mat4 worldViewProj;
+uniform mat4 worldInvTranspose;
+uniform vec4 ambientColor;
 
 uniform sampler2D colorTexture;
 
 layout(location = 0) in vec3 inPos;
+layout(location = 1) in vec3 inNormal;
 
+out vec4 positionW;
+out vec3 normalW;
 out vec4 cubeColor;
 out vec2 texCoord;
 
 void main()
 {
-	vec4 pos = vec4(inPos, 1.0);
-//	ivec2 texCoord = ivec2(mod(gl_InstanceID, 16), (gl_InstanceID / 16));
-//	vec2 texCoordf = vec2(texCoord)/vec2(16.0);
-	//cubeColor = texelFetch(sprite, texCoord, 0);
-//	pos.x += gl_InstanceID * 1.1;
-//	float id = gl_InstanceID/(16.0 * 16.0);
+	positionW = vec4(inPos, 1.0);
+
+	normalW = inNormal * mat3(worldInvTranspose);
+
+	ivec2 texSize = textureSize(colorTexture, 0);
+
+	ivec2 cubePos = ivec2(mod(gl_InstanceID, texSize.x), gl_InstanceID / texSize.y);
+
+	positionW.xz += cubePos - texSize / 2.0 + 0.5;
 
 	texCoord = inPos.xy + vec2(0.5);
-	cubeColor = vec4(1.0);
-	pos = pos * worldViewProj;
-	gl_Position = pos;
+	
+	cubeColor = texelFetch(colorTexture, cubePos, 0);
+
+	if(cubeColor.a < 0.5){
+		gl_Position = vec4(0.0);
+		return;
+	}
+
+	positionW = positionW * worldViewProj;
+	gl_Position = positionW;
 }

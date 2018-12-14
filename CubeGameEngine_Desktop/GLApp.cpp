@@ -3,7 +3,9 @@
 using std::puts;
 using std::string;
 
-bool SDLGLApp::DEBUG_PAUSE_ON_EXIT = false;
+#if _DEBUG
+bool GLApp::DEBUG_PAUSE_ON_EXIT = false;
+#endif // _DEBUG
 
 void GLAPIENTRY
 MessageCallback(GLenum source,
@@ -101,26 +103,27 @@ MessageCallback(GLenum source,
 
 	fprintf(stderr, "GL CALLBACK|Source %s|Type %s (%d)|Severity %s|%s\n\n", _source, _type, id, _severity, message);
 #if _DEBUG
-	SDLGLApp::DEBUG_PAUSE_ON_EXIT = true;
+	GLApp::DEBUG_PAUSE_ON_EXIT = true;
 #endif // _DEBUG
 }
 
-SDLGLApp::SDLGLApp(string title) : windowTitle(title)
+GLApp::GLApp(string title) : windowTitle(title)
 {
 }
 
-SDLGLApp::~SDLGLApp()
+GLApp::~GLApp()
 {
+	SDL_Quit();
 }
 
-bool SDLGLApp::Init()
+bool GLApp::Init()
 {
 	if (!InitSDL()) return false;
 	if (!InitGL()) return false;
 	return true;
 }
 
-bool SDLGLApp::InitSDL()
+bool GLApp::InitSDL()
 {
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 	{
@@ -139,6 +142,8 @@ bool SDLGLApp::InitSDL()
 	setAttrResult |= SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, GLVersionMajor);
 	setAttrResult |= SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, GLVersionMinor);
 	setAttrResult |= SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+	setAttrResult |= SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
+	setAttrResult |= SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 4);
 
 	if (setAttrResult < 0)
 	{
@@ -158,14 +163,14 @@ bool SDLGLApp::InitSDL()
 
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
-	glFrontFace(GL_CW);
+	glFrontFace(GL_CCW);
 
 	glEnable(GL_TEXTURE_2D);
 
 	return true;
 }
 
-bool SDLGLApp::InitGL()
+bool GLApp::InitGL()
 {
 	glewExperimental = GL_TRUE;
 	if (glewInit() != GLEW_OK)
@@ -180,7 +185,12 @@ bool SDLGLApp::InitGL()
 	return true;
 }
 
-float SDLGLApp::AspectRatio() const
+void GLApp::SwapBuffers()
+{
+	SDL_GL_SwapWindow(mainWindow);
+}
+
+float GLApp::AspectRatio() const
 {
 	return static_cast<float>(windowWidth) / windowHeight;
 }

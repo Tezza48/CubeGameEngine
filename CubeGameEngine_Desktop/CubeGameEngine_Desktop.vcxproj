@@ -150,17 +150,22 @@
     <ClInclude Include="resource.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShapeGenerator.h" />
+    <ClInclude Include="TextureTest.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="Vertex.h" />
+    <ClInclude Include="VoxelSpriteTest.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BasicApp.cpp" />
     <ClCompile Include="GLApp.cpp" />
     <ClCompile Include="GLTexture.cpp" />
     <ClCompile Include="GLVertexBuffer.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShapeGenerator.cpp" />
     <ClCompile Include="stb_image.cpp" />
+    <ClCompile Include="TextureTest.cpp" />
+    <ClCompile Include="VoxelSpriteTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shader.frag" />

@@ -15,5 +15,8 @@ public:
 	// Inherited via GLResource
 	virtual void Bind() override;
 	virtual void Unbind() override;
+	unsigned int GetWidth();
+	unsigned int GetHeight();
+	unsigned int GetNumPixels();
 };
 

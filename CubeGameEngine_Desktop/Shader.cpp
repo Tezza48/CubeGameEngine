@@ -37,7 +37,7 @@ void Shader::UnbindAll()
 
 unsigned int Shader::GetUniformLocation(const std::string & uniformName)
 {
-	if (uniformCache.find(uniformName) != uniformCache.end())
+	if (uniformCache.find(uniformName) == uniformCache.end())
 	{
 		uniformCache[uniformName] = glGetUniformLocation(program, uniformName.c_str());
 	}

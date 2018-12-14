@@ -6,7 +6,7 @@
 #include <glm/ext.hpp>
 #include "vendor/stb_image/stb_image.h"
 
-BasicApp::BasicApp(std::string title) : SDLGLApp::SDLGLApp(title)
+BasicApp::BasicApp(std::string title) : GLApp::GLApp(title)
 {
 	
 }
@@ -14,17 +14,15 @@ BasicApp::BasicApp(std::string title) : SDLGLApp::SDLGLApp(title)
 
 BasicApp::~BasicApp()
 {
-	delete texture;
-	SDL_Quit();
+
 }
 
 bool BasicApp::Init()
 {
-	SDLGLApp::Init();
+	GLApp::Init();
 
 	// Generate Cube Mesh Data
 	auto cubeMesh = ShapeGenerator::CreateUnitCube();
-	auto quadMesh = ShapeGenerator::CreateUnitQuad();
 
 	// Init GL Buffers (would be nice to abstract buffer stuff)
 	glGenVertexArrays(1, &meshVAO);
@@ -34,12 +32,12 @@ bool BasicApp::Init()
 	glBindBuffer(GL_ARRAY_BUFFER, meshVBuffer);
 
 	glBufferData(GL_ARRAY_BUFFER, sizeof(VertexPosition) * 4,
-		&quadMesh.perVertex[0], GL_STATIC_DRAW);
+		&cubeMesh.perVertex[0], GL_STATIC_DRAW);
 
 	glGenBuffers(1, &meshIBuffer);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, meshIBuffer);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned short) * 6,
-		&quadMesh.perIndex[0], GL_STATIC_DRAW);
+		&cubeMesh.perIndex[0], GL_STATIC_DRAW);
 
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), 0);
@@ -54,19 +52,19 @@ bool BasicApp::Init()
 	projection = glm::perspective(glm::quarter_pi<float>(), AspectRatio(), 0.01f, 1000.0f);
 	projection = glm::transpose(projection);
 
-	// Load Texture
-	int x, y, n;
-	unsigned char * data = stbi_load("res/smiley_2D.png", &x, &y, &n, 4);
+	//// Load Texture
+	//int x, y, n;
+	//unsigned char * data = stbi_load("res/smiley_2D.png", &x, &y, &n, 4);
 
-	texture = new GLTexture(x, y, n, 2);
-	texture->InitGLResource(data);
-	stbi_image_free(data);
-	texture->Unbind();
+	//texture = new GLTexture(x, y, n, 2);
+	//texture->InitGLResource(data);
+	//stbi_image_free(data);
+	//texture->Unbind();
 
-	// Set Uniforms
-	shader.Use();
-	glUniform1i(shader.GetUniformLocation("colorTexture"), 0);
-	Shader::UnbindAll();
+	//// Set Uniforms
+	//shader.Use();
+	//glUniform1i(shader.GetUniformLocation("colorTexture"), 0);
+	//Shader::UnbindAll();
 	return true;
 }
 
@@ -100,9 +98,9 @@ int BasicApp::Run()
 		glBindVertexArray(meshVAO);
 		glBindBuffer(GL_ARRAY_BUFFER, meshVBuffer);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, meshIBuffer);
-		glActiveTexture(GL_TEXTURE0);
-		texture->Bind();
-		glBindSampler(0, 0);
+		//glActiveTexture(GL_TEXTURE0);
+		//texture->Bind();
+		//glBindSampler(0, 0);
 
 		glm::mat4 view = glm::lookAt(glm::vec3(0.0f, 0.0f, 10.0f), glm::vec3(0.0), glm::vec3(0.0f, 1.0f, 0.0f));
 		view = glm::transpose(view);
@@ -116,7 +114,7 @@ int BasicApp::Run()
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, 0);
 		//glDrawElementsInstanced(GL_TRIANGLES, numQuadIndices, GL_UNSIGNED_SHORT, 0, 16 * 16);
 		//glDrawRangeElementsBaseVertex(GL_TRIANGLES, quadIStart, quadIStart + numQuadIndices, numQuadIndices, GL_UNSIGNED_SHORT, 0, quadVStart);
-		SDL_GL_SwapWindow(mainWindow);
+		SwapBuffers();
 	}
 	return 0;
 }

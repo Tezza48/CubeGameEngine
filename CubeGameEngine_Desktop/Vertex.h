@@ -12,3 +12,9 @@ struct VertexPositionColor
 	glm::vec3 position;
 	glm::vec4 color;
 };
+
+struct VertexPositionNormal
+{
+	glm::vec3 position;
+	glm::vec3 normal;
+};

@@ -13,5 +13,6 @@ class ShapeGenerator
 {
 public:
 	static MeshData<VertexPosition, unsigned short> CreateUnitCube();
+	static MeshData<VertexPositionNormal, unsigned short> CreateUnitCubeFlat();
 	static MeshData<VertexPosition, unsigned short> CreateUnitQuad();
 };
