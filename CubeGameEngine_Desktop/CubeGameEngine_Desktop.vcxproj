@@ -165,11 +165,12 @@
     <ClCompile Include="ShapeGenerator.cpp" />
     <ClCompile Include="stb_image.cpp" />
     <ClCompile Include="TextureTest.cpp" />
+    <ClCompile Include="Vertex.cpp" />
     <ClCompile Include="VoxelSpriteTest.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="shader.frag" />
-    <None Include="shader.vert" />
+    <None Include="sprite2D.frag" />
+    <None Include="sprite2D.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

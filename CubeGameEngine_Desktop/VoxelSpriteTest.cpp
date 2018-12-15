@@ -34,17 +34,19 @@ bool VoxelSpriteTest::Init()
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned short) * mesh.perIndex.size(),
 		&mesh.perIndex[0], GL_STATIC_DRAW);
 
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(VertexPositionNormal), 0);
-	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_TRUE, sizeof(VertexPositionNormal), (void *)offsetof(VertexPositionNormal, normal));
+	for (GLuint i = 0; i < VertexPositionNormal::NumElements; i++)
+	{		
+		auto desc = VertexPositionNormal::ElementDescriptions[i];
+		glEnableVertexAttribArray(i);
+		glVertexAttribPointer(i, desc.size, desc.GetType(), desc.isNormalized, desc.stride, (void *)(desc.offset));
+	}
 
 	glBindVertexArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 	shader = new Shader();
-	shader->LoadShader("shader");
+	shader->LoadShader("sprite2D");
 
 	projection = glm::perspective(glm::quarter_pi<float>(), AspectRatio(), 0.01f, 1000.0f);
 	projection = glm::transpose(projection);

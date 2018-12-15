@@ -83,9 +83,12 @@
     <ClCompile Include="VoxelSpriteTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Vertex.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="shader.frag" />
-    <None Include="shader.vert" />
+    <None Include="sprite2D.frag" />
+    <None Include="sprite2D.vert" />
   </ItemGroup>
 </Project>
