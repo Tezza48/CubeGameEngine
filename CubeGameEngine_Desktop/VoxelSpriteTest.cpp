@@ -53,9 +53,8 @@ bool VoxelSpriteTest::Init()
 
 	// Set AmbientColor
 	ambientColor = glm::vec4(0.2f, 0.2f, 0.2f, 0.2f);
-	auto amColLoc = shader->GetUniformLocation("ambientColor");
 	shader->Use();
-	glUniform4fv(amColLoc, 1, &ambientColor[0]);
+	shader->UniformFloat4Array("ambientColor", 1, &ambientColor[0]);
 	Shader::UnbindAll();
 
 	return true;
@@ -93,7 +92,7 @@ int VoxelSpriteTest::Run()
 		vertexBuffer->Bind();
 		indexBuffer->Bind();
 
-		glUniform1i(shader->GetUniformLocation("colorTexture"), 0);
+		shader->UniformInt("colorTexture", 0);
 		glActiveTexture(GL_TEXTURE0);
 		texture->Bind();
 
@@ -105,14 +104,11 @@ int VoxelSpriteTest::Run()
 		glm::mat4 world = glm::mat4(1.0);
 		glm::mat4 wvp = view * projection;
 		glm::mat4 wordInvTrans = glm::inverseTranspose(world);
-		auto loc = shader->GetUniformLocation("worldViewProj");
-		glUniformMatrix4fv(loc, 1, GL_FALSE, &wvp[0][0]);
-		loc = shader->GetUniformLocation("world");
-		glUniformMatrix4fv(loc, 1, GL_FALSE, &world[0][0]);
-		loc = shader->GetUniformLocation("worldInvTranspose");
-		glUniformMatrix4fv(loc, 1, GL_FALSE, &wordInvTrans[0][0]);
-		loc = shader->GetUniformLocation("eyePosW");
-		glUniform3fv(loc, 1, &eyePos[0]);
+
+		shader->UniformMatrix4Array("worldViewProj", 1, GL_FALSE, &wvp[0][0]);
+		shader->UniformMatrix4Array("world", 1, GL_FALSE, &world[0][0]);
+		shader->UniformMatrix4Array("worldInvTranspose", 1, GL_FALSE, &wordInvTrans[0][0]);
+		shader->UniformFloat3Array("eyePosW", 1, &eyePos[0]);
 
 		glDrawElementsInstanced(GL_TRIANGLES, 36, GL_UNSIGNED_SHORT, 0, texture->GetNumPixels());
 		SwapBuffers();
