@@ -25,7 +25,7 @@ void main()
 
 	ivec2 cubePos = ivec2(mod(gl_InstanceID, texSize.x), gl_InstanceID / texSize.y);
 
-	positionW.xz += cubePos - texSize / 2.0 + 0.5;
+	positionW.xy += cubePos - texSize / 2.0 + 0.5;
 
 	texCoord = inPos.xy + vec2(0.5);
 	

@@ -1,11 +1,9 @@
-#include "TextureTest.h"
-#include "BasicApp.h"
-#include "VoxelSpriteTest.h"
+#include "RendererTest.h"
 
 #if _DEBUG
 void DebugCleanup()
 {
-	if (GLApp::DEBUG_PAUSE_ON_EXIT) system("PAUSE");
+	system("PAUSE");
 }
 #endif // _DEBUG
 
@@ -14,7 +12,13 @@ int main(int argc, char**argv)
 #if _DEBUG
 	atexit(DebugCleanup);
 #endif
-	VoxelSpriteTest app;
-	if (!app.Init()) return 0;
-	return app.Run();
+	try
+	{
+		RendererTest app;
+		return app.Run();
+	}
+	catch (void *)
+	{
+		puts("Exception Thrown\n");
+	}
 }

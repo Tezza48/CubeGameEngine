@@ -25,7 +25,7 @@ void main()
 	vec4 diffuse = vec4(0.0);
 	vec4 spec = vec4(0.0);
 
-	vec3 lightVec = -normalize(vec3(0.57735, -1.0, 0.2)); 
+	vec3 lightVec = -normalize(vec3(0.57735, -0.2, 1.0)); 
 
 	float diffuseFactor = dot(lightVec, newNormalW);
 

@@ -1,5 +1,5 @@
 #include "GLTexture.h"
-
+#include <cstdio>
 
 
 GLTexture::GLTexture(unsigned int width, unsigned int height, 
@@ -29,7 +29,7 @@ GLTexture::GLTexture(unsigned int width, unsigned int height,
 	//	glTarget = GL_TEXTURE_3D;
 	//	break;
 	default:
-		DebugLog("Unsupported Texture Dimension");
+		puts("Unsupported Texture Dimension");
 		break;
 	}
 	Unbind();
