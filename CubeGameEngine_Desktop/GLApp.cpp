@@ -37,16 +37,17 @@ GLApp::GLApp(string title = "GL App") : windowTitle(title)
 		throw;
 	}
 
+	renderer = new Renderer();
 }
 
 GLApp::~GLApp()
 {
+	SafeDelete(renderer);
 	SDL_Quit();
 }
 
 int GLApp::Run()
 {
-	Renderer * renderer = new Renderer();
 	renderer->Init();
 	renderer->OnResize(AspectRatio());
 	Start();
@@ -79,6 +80,11 @@ void GLApp::SwapBuffers()
 {
 	SDL_GL_SwapWindow(mainWindow);
 	
+}
+
+void GLApp::SetBackgroundColor(const glm::vec4 & color)
+{
+	renderer->SetBackgroundColor(color);
 }
 
 float GLApp::AspectRatio() const

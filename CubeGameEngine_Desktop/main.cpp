@@ -20,5 +20,6 @@ int main(int argc, char**argv)
 	catch (void *)
 	{
 		puts("Exception Thrown\n");
+		return -1;
 	}
 }

@@ -28,7 +28,7 @@ public:
 	void OnResize(float aspectRatio);
 	void Clear();
 	void SetBackgroundColor(const glm::vec4 & color);
-	void DrawTexture(GLTexture * texture, glm::mat4 world, glm::vec3 cameraPosition);
+	void DrawTexture(GLTexture * texture, glm::mat4 world, glm::vec3 cameraPosition, int animFrame = 0);
 };
 
 void GLAPIENTRY

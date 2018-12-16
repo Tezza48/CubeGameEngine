@@ -7,6 +7,8 @@ uniform vec4 ambientColor;
 
 uniform sampler2D colorTexture;
 
+uniform int animOffset;
+
 layout(location = 0) in vec3 inPos;
 layout(location = 1) in vec3 inNormal;
 
@@ -23,15 +25,15 @@ void main()
 
 	ivec2 texSize = textureSize(colorTexture, 0);
 
-	ivec2 cubePos = ivec2(mod(gl_InstanceID, texSize.x), gl_InstanceID / texSize.y);
+	ivec2 cubePos = ivec2(mod(gl_InstanceID, texSize.x), (gl_InstanceID / texSize.x));
 
-	positionW.xy += cubePos - texSize / 2.0 + 0.5;
+	positionW.xy += cubePos - (texSize.xx / 2.0) + 0.5;
 
 	texCoord = inPos.xy + vec2(0.5);
 	
-	cubeColor = texelFetch(colorTexture, cubePos, 0);
+	cubeColor = texelFetch(colorTexture, cubePos + ivec2(0, animOffset * texSize.x), 0);
 
-	if(cubeColor.a < 0.5){
+	if(cubeColor.a < 0.01){
 		gl_Position = vec4(0.0);
 		return;
 	}

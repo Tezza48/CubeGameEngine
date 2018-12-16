@@ -21,11 +21,12 @@ private:
 	SDL_GLContext context;
 	SDL_Window * mainWindow;
 	bool isRunning;
+	Renderer * renderer = nullptr;
 protected:
 	std::string windowTitle;
 
-	int windowWidth = 800;
-	int windowHeight = 600;
+	int windowWidth = 1280;
+	int windowHeight = 720;
 public:
 
 public:
@@ -41,6 +42,7 @@ public:
 private:
 	void SwapBuffers();
 protected:
+	void SetBackgroundColor(const glm::vec4 & color);
 	float AspectRatio() const;
 	void Quit();
 };

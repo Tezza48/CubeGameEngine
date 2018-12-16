@@ -73,13 +73,13 @@ void Renderer::SetBackgroundColor(const glm::vec4 & color)
 	backgroundColor = color;
 }
 
-void Renderer::DrawTexture(GLTexture * texture, glm::mat4 world, glm::vec3 cameraPosition)
+void Renderer::DrawTexture(GLTexture * texture, glm::mat4 world, glm::vec3 cameraPosition, int animFrame)
 {
 	shader->Use();
 	cubeVertexArrayObject->Bind();
 	cubeIndexBuffer->Bind();
 	texture->Bind();
-	glm::mat4 view = glm::lookAt(cameraPosition, cameraPosition + glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	glm::mat4 view = glm::lookAt(cameraPosition, cameraPosition + glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 	view = glm::transpose(view);
 
 	glm::mat4 worldViewProj = world * view * cameraProjection;
@@ -89,8 +89,9 @@ void Renderer::DrawTexture(GLTexture * texture, glm::mat4 world, glm::vec3 camer
 	shader->UniformMatrix4Array("world", 1, GL_FALSE, &world[0][0]);
 	shader->UniformMatrix4Array("worldInvTranspose", 1, GL_FALSE, &worldInvTrans[0][0]);
 	shader->UniformFloat3Array("eyePosW", 1, &cameraPosition[0]);
+	shader->UniformInt("animOffset", animFrame);
 	//TODO Remove Hardcoded GL_UNSIGNED_SHORT, it should be saved int the index buffer class
-	glDrawElementsInstanced(GL_TRIANGLES, cubeIndexBuffer->GetNumIndices(), GL_UNSIGNED_SHORT, nullptr, texture->GetNumPixels());
+	glDrawElementsInstanced(GL_TRIANGLES, cubeIndexBuffer->GetNumIndices(), GL_UNSIGNED_SHORT, nullptr, texture->GetWidth() * texture->GetWidth());
 }
 
 void GLAPIENTRY
