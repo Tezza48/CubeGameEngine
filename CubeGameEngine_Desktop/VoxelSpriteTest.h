@@ -3,6 +3,9 @@
 #include "GLApp.h"
 #include "GLTexture.h"
 #include "Shader.h"
+#include "VertexBuffer.h"
+#include "IndexBuffer.h"
+#include "VertexArray.h"
 
 class VoxelSpriteTest :
 	public GLApp
@@ -10,9 +13,9 @@ class VoxelSpriteTest :
 private:
 	Shader * shader = nullptr;
 
-	unsigned int meshVAO = 0;
-	unsigned int meshVBuffer = 0;
-	unsigned int meshIBuffer = 0;
+	VertexArray * vertexArrayObject = nullptr;
+	VertexBuffer * vertexBuffer = nullptr;
+	IndexBuffer * indexBuffer = nullptr;
 
 	GLTexture * texture = nullptr;
 

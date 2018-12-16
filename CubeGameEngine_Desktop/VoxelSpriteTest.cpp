@@ -20,30 +20,20 @@ bool VoxelSpriteTest::Init()
 
 	auto mesh = ShapeGenerator::CreateUnitCubeFlat();
 
-	glGenVertexArrays(1, &meshVAO);
-	glBindVertexArray(meshVAO);
+	vertexArrayObject = new VertexArray();
+	vertexArrayObject->Bind();
 
-	glGenBuffers(1, &meshVBuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, meshVBuffer);
-
-	glBufferData(GL_ARRAY_BUFFER, sizeof(VertexPositionNormal) * mesh.perVertex.size(),
+	vertexBuffer = new VertexBuffer(
+		sizeof(VertexPositionNormal) * mesh.perVertex.size(),
 		&mesh.perVertex[0], GL_STATIC_DRAW);
 
-	glGenBuffers(1, &meshIBuffer);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, meshIBuffer);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned short) * mesh.perIndex.size(),
-		&mesh.perIndex[0], GL_STATIC_DRAW);
+	indexBuffer = new IndexBuffer(sizeof(unsigned short) * mesh.perIndex.size(), &mesh.perIndex[0], GL_STATIC_DRAW);
 
-	for (GLuint i = 0; i < VertexPositionNormal::NumElements; i++)
-	{		
-		auto desc = VertexPositionNormal::ElementDescriptions[i];
-		glEnableVertexAttribArray(i);
-		glVertexAttribPointer(i, desc.size, desc.GetType(), desc.isNormalized, desc.stride, (void *)(desc.offset));
-	}
+	vertexBuffer->Bind();
+	vertexArrayObject->InitLayout(VertexPositionNormal::NumElements, VertexPositionNormal::ElementDescriptions);
 
-	glBindVertexArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	vertexArrayObject->Unbind();
+	vertexBuffer->Unbind();
 
 	shader = new Shader();
 	shader->LoadShader("sprite2D");
@@ -57,8 +47,7 @@ bool VoxelSpriteTest::Init()
 	int x, y, n;
 	unsigned char * data = stbi_load("res/Alien_01.png", &x, &y, &n, 4);
 
-	texture = new GLTexture(x, y, n, 2);
-	texture->InitGLResource(data);
+	texture = new GLTexture(x, y, n, 2, data);
 	stbi_image_free(data);
 	texture->Unbind();
 
@@ -100,9 +89,9 @@ int VoxelSpriteTest::Run()
 
 		shader->Use();
 
-		glBindVertexArray(meshVAO);
-		glBindBuffer(GL_ARRAY_BUFFER, meshVBuffer);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, meshIBuffer);
+		vertexArrayObject->Bind();
+		vertexBuffer->Bind();
+		indexBuffer->Bind();
 
 		glUniform1i(shader->GetUniformLocation("colorTexture"), 0);
 		glActiveTexture(GL_TEXTURE0);

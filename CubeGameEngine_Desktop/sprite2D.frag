@@ -13,6 +13,8 @@ in vec2 texCoord;
 
 out vec4 FragColor;
 
+
+
 void main()
 {
 	vec3 newNormalW = normalize(normalW);

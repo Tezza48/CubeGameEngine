@@ -52,8 +52,7 @@ bool TextureTest::Init()
 	int x, y, n;
 	unsigned char * data = stbi_load("res/smiley_2D.png", &x, &y, &n, 4);
 
-	texture = new GLTexture(x, y, n, 2);
-	texture->InitGLResource(data);
+	texture = new GLTexture(x, y, n, 2, data);
 	stbi_image_free(data);
 	texture->Unbind();
 

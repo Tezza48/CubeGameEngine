@@ -10,7 +10,6 @@ class GLResource
 protected:
 	ResourceHandle glHandle;
 	ResourceTarget glTarget;
-	virtual void InitGLResource(const void * data) = 0;
 	virtual void Bind() = 0;
 	virtual void Unbind() = 0;
 	ResourceHandle GetHandle() const
