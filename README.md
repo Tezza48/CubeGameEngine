@@ -21,8 +21,12 @@ public:
 ```
 
 `Start()` Initialize your Textures here along with various game objects
+
 `Update()` is called once per frame, Game Logic goes Here
-`ProcessEvent()` is called every time an event happens in SDL (The library that deals with the window and other system stuff). Check for keypresses and mouse clicks/movement Here.
+
+`ProcessEvent()` is called every time an event happens in SDL (The library that deals with the window
+and other system stuff). Check for keypresses and mouse clicks/movement Here.
+
 `Draw()` is where you draw things using the `Renderer`
 
 
