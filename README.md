@@ -65,3 +65,7 @@ You can change the backcround colour with `Renderer::SetBackgroundColor`
 Feel free to tinker with the behind the scenes renderer and base App and even the shaders.
 
 If you have any suggestions about how the engine works feel free to voice them!.
+
+---
+
+Note, Crate texture is from OpenGameArt, all other resources are created by me, to the best of my knowledge
