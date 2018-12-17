@@ -47,6 +47,15 @@ int main(int argc, char**argv)
 }
 ```
 
+Textures currently have to be loaded manually with STB as follows:
+```cpp
+int x, y, n;
+stbi_set_flip_vertically_on_load(true);
+unsigned char * data = stbi_load("res/alien_anim_01.png", &x, &y, &n, 4);
+texture = new GLTexture(x, y, n, 2, data);
+stbi_image_free(data);
+```
+
 ---
 
 Draw your sprite with `Renderer::DrawTexture()`
