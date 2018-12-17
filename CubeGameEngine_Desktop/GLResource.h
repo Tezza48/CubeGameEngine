@@ -1,6 +1,5 @@
 #pragma once
 #include <GL/glew.h>
-#include "GLApp.h"
 
 typedef unsigned int ResourceHandle;
 typedef unsigned int ResourceTarget;

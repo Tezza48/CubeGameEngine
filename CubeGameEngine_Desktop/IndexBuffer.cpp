@@ -1,6 +1,6 @@
 #include "IndexBuffer.h"
 
-IndexBuffer::IndexBuffer(size_t size, const void * data, GLenum usage)
+IndexBuffer::IndexBuffer(GLsizeiptr size, const void * data, GLenum usage, unsigned long numIndices) : elementSize(size), numIndices(numIndices)
 {
 	glGenBuffers(1, &glHandle);
 	Bind();
@@ -21,4 +21,14 @@ void IndexBuffer::Bind()
 void IndexBuffer::Unbind()
 {
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+}
+
+unsigned long IndexBuffer::GetNumIndices() const
+{
+	return numIndices;
+}
+
+GLsizeiptr IndexBuffer::GetElementSize() const
+{
+	return elementSize;
 }

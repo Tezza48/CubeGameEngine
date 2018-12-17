@@ -7,6 +7,7 @@ private:
 	unsigned int width, height, bpp;
 public:
 	GLTexture() = delete;
+	GLTexture(const GLTexture &) = delete;
 	GLTexture(unsigned int width, unsigned int height, unsigned int bpp, unsigned char dimension, const void * data);
 	~GLTexture();
 
