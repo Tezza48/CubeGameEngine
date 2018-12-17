@@ -55,5 +55,5 @@ void RendererTest::Draw(Renderer * renderer)
 
 	int seci = (int)seconds;
 
-	renderer->DrawTexture(texture, glm::transpose(world), glm::vec3(0.0f, 0.0f, 32.0f), seci % 2);
+	renderer->DrawTexture(texture, world, glm::vec3(0.0f, 0.0f, 32.0f), seci % 2);
 }

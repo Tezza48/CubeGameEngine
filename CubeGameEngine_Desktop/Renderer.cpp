@@ -81,7 +81,7 @@ void Renderer::DrawTexture(GLTexture * texture, glm::mat4 world, glm::vec3 camer
 	texture->Bind();
 	glm::mat4 view = glm::lookAt(cameraPosition, cameraPosition + glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 	view = glm::transpose(view);
-
+	world = glm::transpose(world);
 	glm::mat4 worldViewProj = world * view * cameraProjection;
 	glm::mat4 worldInvTrans = glm::inverseTranspose(world);
 
